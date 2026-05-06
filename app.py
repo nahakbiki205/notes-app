@@ -1,14 +1,25 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 
-# Store notes in memory
 notes = []
 
+# Serve HTML
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return send_from_directory(".", "index.html")
 
+# Serve CSS
+@app.route("/style.css")
+def style():
+    return send_from_directory(".", "style.css")
+
+# Serve JS
+@app.route("/script.js")
+def script():
+    return send_from_directory(".", "script.js")
+
+# Add note
 @app.route("/add", methods=["POST"])
 def add_note():
     data = request.get_json()
@@ -17,10 +28,10 @@ def add_note():
     if note:
         notes.append(note)
         return jsonify({"message": "Note added"})
-    else:
-        return jsonify({"error": "Empty note"}), 400
+    return jsonify({"error": "Empty note"}), 400
 
-@app.route("/get", methods=["GET"])
+# Get notes
+@app.route("/get")
 def get_notes():
     return jsonify(notes)
 
