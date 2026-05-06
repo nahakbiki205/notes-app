@@ -3,7 +3,7 @@ function addNote() {
     const text = input.value.trim();
 
     if (text === "") {
-        alert("Please enter a note");
+        alert("Enter a note");
         return;
     }
 
@@ -35,5 +35,4 @@ function loadNotes() {
     });
 }
 
-// Load notes when page opens
 loadNotes();
